@@ -23,13 +23,14 @@ subsequent stages, we will implement the write-back functionality here.
 
 StaticBuffer::~StaticBuffer(){
 //empty deconstructor
+  // In subsequent stages, implement the write-back functionality here
 }
 
 int StaticBuffer::getFreeBuffer(int blockNum) {
   if (blockNum < 0 || blockNum > DISK_BLOCKS) {
     return E_OUTOFBOUND;
   }
-  int allocatedBuffer=-1;
+  int allocatedBuffer = -1;
   
   for (int bufferIndex = 0 ; bufferIndex< BUFFER_CAPACITY; bufferIndex++) 
   {
@@ -63,7 +64,7 @@ int StaticBuffer::getBufferNum(int blockNum)
  
  for (int bufferIndex = 0 ; bufferIndex< BUFFER_CAPACITY; bufferIndex++) 
  {
-	if( metainfo[bufferIndex].blockNum ==blockNum)
+	if( !metainfo[bufferIndex].free && metainfo[bufferIndex].blockNum ==blockNum)
 	{
 	return bufferIndex;
 	}

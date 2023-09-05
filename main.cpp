@@ -73,15 +73,16 @@ int main(int argc, char *argv[]){
   return 0;
 }
 
+
 */
 
 
-//stage 3 : modify to fetch catalog entries from cache instead fo records
+//----------stage 3 : modify to fetch catalog entries from cache instead fo records
 
 int main(int argc, char *argv[]) {
   Disk disk_run;
   StaticBuffer buffer;
-  OpenRelTable cache;
+ OpenRelTable cache;
 
   /*
   for i = 0 and i = 1 (i.e RELCAT_RELID and ATTRCAT_RELID)
@@ -96,6 +97,7 @@ int main(int argc, char *argv[]) {
           printf("  %s: %s\n", attrName, attrType);
   */
 
+
 for (int i = 0; i <= 2; i++) {
 
       RelCatEntry relCatEntry;
@@ -105,6 +107,10 @@ for (int i = 0; i <= 2; i++) {
 	  {
 
         printf("Relation: %s\n", relCatEntry.relName);
+	  }
+	  else{
+		cout << "Error fetching relation catalog entry";
+	  }
 
         for (int j = 0; j <relCatEntry.numAttrs; j++) 
 		{
@@ -114,18 +120,26 @@ for (int i = 0; i <= 2; i++) {
             const char* attrType = attrCatEntry.attrType== NUMBER ? "NUM" : "STR";
             printf(" %s: %s\n", attrCatEntry.attrName, attrType);
           }
+		  else{
+			cout<< "Error fetching attribute catalog";
+		  }
         }
       }
-    printf("\n");
-  }
-  return 0;
-
+    
 }
 
+/*
+//-----stage 4------------
 
+int main(int argc, char *argv[]) {
+  Disk disk_run;
+  StaticBuffer buffer;
+  OpenRelTable cache;
 
+  return FrontendInterface::handleFrontend(argc, argv);
+}
 
-
+*/
 
 
 
