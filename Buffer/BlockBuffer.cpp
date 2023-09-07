@@ -8,7 +8,7 @@ using namespace std;
 
 //-----------stage 2 code --------------
 
-/*
+
 BlockBuffer::BlockBuffer(int blockNum) {
   // initialise this.blockNum with the argument
   this->blockNum = blockNum;
@@ -59,7 +59,7 @@ int RecBuffer::getRecord(union Attribute *rec, int slotNum) {
   */
 
  
- /*
+ 
   int recordSize = attrCount * ATTR_SIZE;
   unsigned char *slotPointer = buffer + HEADER_SIZE +slotCount + (recordSize*slotNum);
 
@@ -69,7 +69,7 @@ int RecBuffer::getRecord(union Attribute *rec, int slotNum) {
   return SUCCESS;
 }
 
-*/
+
 
 
 //-------------stage 3 edit: read from buffer instead of disk directly
@@ -79,6 +79,7 @@ Used to get the header of the block into the location pointed to by `head`
 NOTE: this function expects the caller to allocate memory for `head`
 */
 
+/*
 BlockBuffer::BlockBuffer(int blockNum) {
   // initialise this.blockNum with the argument
   this->blockNum = blockNum;
@@ -113,6 +114,7 @@ Used to get the record at slot `slotNum` into the array `rec`
 NOTE: this function expects the caller to allocate memory for `rec`
 */
 
+/*
 int RecBuffer::getRecord(union Attribute *rec, int slotNum) {
   
   unsigned char *bufferPtr;
@@ -142,7 +144,7 @@ Used to load a block to the buffer and get a pointer to it.
 NOTE: this function expects the caller to allocate memory for the argument
 */
 
-
+/*
 int BlockBuffer::loadBlockAndGetBufferPtr(unsigned char **buffPtr) {
   // check whether the block is already present in the buffer using StaticBuffer.getBufferNum()
   int bufferNum = StaticBuffer::getBufferNum(this->blockNum);
