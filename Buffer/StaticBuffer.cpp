@@ -8,6 +8,7 @@ using namespace std;
 unsigned char StaticBuffer::blocks[BUFFER_CAPACITY][BLOCK_SIZE];
 struct BufferMetaInfo StaticBuffer::metainfo[BUFFER_CAPACITY];
 
+
 StaticBuffer::StaticBuffer() {
 //make everything tru(declare as free) initially
 for (int bufferIndex = 0 ; bufferIndex<BUFFER_CAPACITY; bufferIndex++) {
@@ -30,7 +31,7 @@ int StaticBuffer::getFreeBuffer(int blockNum) {
   if (blockNum < 0 || blockNum > DISK_BLOCKS) {
     return E_OUTOFBOUND;
   }
-  int allocatedBuffer = -1;
+  int allocatedBuffer ;
   
   for (int bufferIndex = 0 ; bufferIndex< BUFFER_CAPACITY; bufferIndex++) 
   {
@@ -41,10 +42,6 @@ int StaticBuffer::getFreeBuffer(int blockNum) {
     }
   }
   
-  if(allocatedBuffer == -1)
-  {
-  return E_OUTOFBOUND;
-  }
   
   metainfo[allocatedBuffer].free = false;
   metainfo[allocatedBuffer].blockNum = blockNum;
@@ -64,7 +61,7 @@ int StaticBuffer::getBufferNum(int blockNum)
  
  for (int bufferIndex = 0 ; bufferIndex< BUFFER_CAPACITY; bufferIndex++) 
  {
-	if( !metainfo[bufferIndex].free && metainfo[bufferIndex].blockNum ==blockNum)
+	if(metainfo[bufferIndex].blockNum ==blockNum)
 	{
 	return bufferIndex;
 	}

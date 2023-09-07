@@ -6,6 +6,7 @@
 #include<cstring>
 using namespace std;
 
+//--------------stage 2--------------------
 /*
 int main(int argc, char *argv[]){
 	Disk disk_run;
@@ -79,10 +80,11 @@ int main(int argc, char *argv[]){
 
 //----------stage 3 : modify to fetch catalog entries from cache instead fo records
 
+
 int main(int argc, char *argv[]) {
   Disk disk_run;
   StaticBuffer buffer;
- OpenRelTable cache;
+  OpenRelTable cache;
 
   /*
   for i = 0 and i = 1 (i.e RELCAT_RELID and ATTRCAT_RELID)
@@ -98,7 +100,7 @@ int main(int argc, char *argv[]) {
   */
 
 
-for (int i = 0; i <= 2; i++) {
+for (int i = 0; i <=2; i++) {
 
       RelCatEntry relCatEntry;
       int getRelResult = RelCacheTable::getRelCatEntry(i, &relCatEntry);
@@ -119,9 +121,6 @@ for (int i = 0; i <= 2; i++) {
           if(getAttrResult == SUCCESS){
             const char* attrType = attrCatEntry.attrType== NUMBER ? "NUM" : "STR";
             printf(" %s: %s\n", attrCatEntry.attrName, attrType);
-          }
-		  else{
-			cout<< "Error fetching attribute catalog";
 		  }
         }
       }

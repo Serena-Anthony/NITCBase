@@ -3,7 +3,8 @@
 #include <iostream>
 
 using namespace std;
-//stage 3
+
+//-----------------stage 3----------------
 
 AttrCacheEntry* AttrCacheTable::attrCache[MAX_OPEN];
 
@@ -32,8 +33,6 @@ int AttrCacheTable::getAttrCatEntry(int relId, int attrOffset, AttrCatEntry* att
       // copy entry->attrCatEntry to *attrCatBuf and return SUCCESS;
 
          *attrCatBuf = entry->attrCatEntry;
-
-      return SUCCESS;
     }
   }
 
@@ -45,8 +44,8 @@ int AttrCacheTable::getAttrCatEntry(int relId, int attrOffset, AttrCatEntry* att
     We get the record as Attribute[] from the BlockBuffer.getRecord() function.
     This function will convert that to a struct AttrCatEntry type.
 */
-void AttrCacheTable::recordToAttrCatEntry(union Attribute record[ATTRCAT_NO_ATTRS],
-                                          AttrCatEntry* attrCatEntry) {
+void AttrCacheTable::recordToAttrCatEntry(
+  union Attribute record[ATTRCAT_NO_ATTRS],AttrCatEntry* attrCatEntry) {
   strcpy(attrCatEntry->relName, record[ATTRCAT_REL_NAME_INDEX].sVal);
   strcpy(attrCatEntry->attrName, record[ATTRCAT_ATTR_NAME_INDEX].sVal);
   // copy the rest of the fields in the record to the attrCacheEntry struct
