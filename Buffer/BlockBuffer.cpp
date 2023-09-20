@@ -8,7 +8,6 @@ using namespace std;
 
 //-----------stage 2 code --------------
 
-
 BlockBuffer::BlockBuffer(int blockNum) {
   // initialise this.blockNum with the argument
   this->blockNum = blockNum;
@@ -194,11 +193,33 @@ int RecBuffer::getSlotMap(unsigned char *slotMap) {
   unsigned char *slotMapInBuffer = bufferPtr + HEADER_SIZE;
 
   // copy the values from `slotMapInBuffer` to `slotMap` (size is `slotCount`)
-  for(int i=0; i< slotCount; i++)
-  {
-    
-  }
+  memcpy(slotMap, slotMapInBuffer, slotCount);
   return SUCCESS;
 }
+
+
+
+int compareAttrs(union Attribute attr1, union Attribute attr2, int attrType)
+{
+  if(attrType==NUMBER)
+  {
+    if(attr1.nVal < attr2.nVal)
+    {
+      return -1;
+    }
+    else if(attr1.nVal > attr2.nVal)
+    {
+      return 1;
+    }
+    else
+    {
+      return 0;
+    }
+  }
+  else
+  {
+    return strcmp(attr1.sVal, attr2.sVal);
+  }
+};
 
 */
