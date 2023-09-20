@@ -172,7 +172,7 @@ int BlockBuffer::loadBlockAndGetBufferPtr(unsigned char **buffPtr) {
 NOTE: this function expects the caller to allocate memory for `*slotMap`
 */
 
-/*
+
 int RecBuffer::getSlotMap(unsigned char *slotMap) {
   unsigned char *bufferPtr;
 
@@ -194,11 +194,28 @@ int RecBuffer::getSlotMap(unsigned char *slotMap) {
   unsigned char *slotMapInBuffer = bufferPtr + HEADER_SIZE;
 
   // copy the values from `slotMapInBuffer` to `slotMap` (size is `slotCount`)
-  for(int i=0; i< slotCount; i++)
-  {
-    
-  }
+  memcpy(slotMap, slotMapInBuffer, slotCount);
   return SUCCESS;
 }
 
-*/
+int compareAttrs(union Attribute attribute1, union Attribute attribute2 , int attrType)
+{
+  if(attrType == NUMBER)
+  {
+    if(attribute1.nVal < attribute2.nVal)
+    {
+      return -1;
+    }
+    else if (attribute1.nVal > attribute2.nVal)
+    {
+      return 1;
+    }
+    else{
+      return 0;
+    }
+  }
+  else
+  {
+    return strcmp(attribute1.sVal, attribute2.sVal);
+  }
+}

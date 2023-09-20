@@ -81,13 +81,13 @@ int main(int argc, char *argv[]){
 */
 //----------stage 3 : modify to fetch catalog entries from cache instead fo records
 
-
+/*
 int main(int argc, char *argv[]) {
   Disk disk_run;
   StaticBuffer buffer;
   OpenRelTable cache;
 
-  /*
+  
   for i = 0 and i = 1 (i.e RELCAT_RELID and ATTRCAT_RELID)
 
       get the relation catalog entry using RelCacheTable::getRelCatEntry()
@@ -100,7 +100,7 @@ int main(int argc, char *argv[]) {
           printf("  %s: %s\n", attrName, attrType);
   */
 
-
+/*
 for (int i = 0; i <=2; i++) {
 
       RelCatEntry relCatEntry;
@@ -128,7 +128,8 @@ for (int i = 0; i <=2; i++) {
     
 }
 
-/*
+*/
+
 //-----stage 4------------
 
 int main(int argc, char *argv[]) {
@@ -138,9 +139,6 @@ int main(int argc, char *argv[]) {
 
   return FrontendInterface::handleFrontend(argc, argv);
 }
-
-*/
-
 
 
 

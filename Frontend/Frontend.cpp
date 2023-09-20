@@ -65,7 +65,7 @@ int Frontend::select_from_table_where(char relname_source[ATTR_SIZE], char relna
                                       char attribute[ATTR_SIZE], int op, char value[ATTR_SIZE]) {
   // Algebra::select
   //----------stage 4------//
-  //return Algebra::select(relname_source, relname_target, attribute, op, value);
+  return Algebra::select(relname_source, relname_target, attribute, op, value);
   return SUCCESS;
 }
 

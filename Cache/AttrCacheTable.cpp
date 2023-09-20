@@ -12,6 +12,7 @@ AttrCacheEntry* AttrCacheTable::attrCache[MAX_OPEN];
 /* returns the attrOffset-th attribute for the relation corresponding to relId
 NOTE: this function expects the caller to allocate memory for `*attrCatBuf`
 */
+
 int AttrCacheTable::getAttrCatEntry(int relId, int attrOffset, AttrCatEntry* attrCatBuf) {
   // check if 0 <= relId < MAX_OPEN and return E_OUTOFBOUND otherwise
 
@@ -31,7 +32,6 @@ int AttrCacheTable::getAttrCatEntry(int relId, int attrOffset, AttrCatEntry* att
     if (entry->attrCatEntry.offset == attrOffset) {
 
       // copy entry->attrCatEntry to *attrCatBuf and return SUCCESS;
-
          *attrCatBuf = entry->attrCatEntry;
     }
   }
@@ -44,6 +44,8 @@ int AttrCacheTable::getAttrCatEntry(int relId, int attrOffset, AttrCatEntry* att
     We get the record as Attribute[] from the BlockBuffer.getRecord() function.
     This function will convert that to a struct AttrCatEntry type.
 */
+
+/*
 void AttrCacheTable::recordToAttrCatEntry(
   union Attribute record[ATTRCAT_NO_ATTRS],AttrCatEntry* attrCatEntry) {
   strcpy(attrCatEntry->relName, record[ATTRCAT_REL_NAME_INDEX].sVal);
@@ -55,7 +57,8 @@ void AttrCacheTable::recordToAttrCatEntry(
     attrCatEntry->rootBlock= (int)record[ATTRCAT_ROOT_BLOCK_INDEX].nVal;
     attrCatEntry->offset =  (int)record[ATTRCAT_OFFSET_INDEX].nVal;
 }
-/*
+
+*/
 //-----------stage 4 -------------
 
 // returns the attribute with name `attrName` for the relation corresponding to relId
@@ -75,14 +78,15 @@ int AttrCacheTable::getAttrCatEntry(int relId, char attrName[ATTR_SIZE], AttrCat
   // iterate over the entries in the attribute cache and set attrCatBuf to the entry that
   //    matches attrName
    for (AttrCacheEntry* entry = attrCache[relId]; entry != nullptr; entry = entry->next) {
-    if (entry->attrCatEntry.attrName == attrName) {
-        entry->attrCatEntry = *attrCatBuf;
+    if (strcmp(entry->attrCatEntry.attrName, attrName)==0) {
+        attrCatBuf->attrType= entry->attrCatEntry.attrType;
+        attrCatBuf->offset = entry->attrCatEntry.offset;
+        attrCatBuf->primaryFlag = entry->attrCatEntry.primaryFlag;
+        attrCatBuf->rootBlock = entry->attrCatEntry.rootBlock;
         return SUCCESS;
     }
   }
 
-
   // no attribute with name attrName for the relation
   return E_ATTRNOTEXIST;
 }
-*/
