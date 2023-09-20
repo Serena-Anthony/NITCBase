@@ -8,6 +8,7 @@ using namespace std;
 
 //--------------stage 2--------------------
 
+/*
 int main(int argc, char *argv[]){
 	Disk disk_run;
 	StaticBuffer buffer;
@@ -77,9 +78,9 @@ int main(int argc, char *argv[]){
 
 
 
-
+*/
 //----------stage 3 : modify to fetch catalog entries from cache instead fo records
-/*
+
 
 int main(int argc, char *argv[]) {
   Disk disk_run;
@@ -99,7 +100,7 @@ int main(int argc, char *argv[]) {
           printf("  %s: %s\n", attrName, attrType);
   */
 
-/*
+
 for (int i = 0; i <=2; i++) {
 
       RelCatEntry relCatEntry;
