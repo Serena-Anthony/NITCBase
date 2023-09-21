@@ -45,7 +45,7 @@ int AttrCacheTable::getAttrCatEntry(int relId, int attrOffset, AttrCatEntry* att
     This function will convert that to a struct AttrCatEntry type.
 */
 
-/*
+
 void AttrCacheTable::recordToAttrCatEntry(
   union Attribute record[ATTRCAT_NO_ATTRS],AttrCatEntry* attrCatEntry) {
   strcpy(attrCatEntry->relName, record[ATTRCAT_REL_NAME_INDEX].sVal);
@@ -58,7 +58,7 @@ void AttrCacheTable::recordToAttrCatEntry(
     attrCatEntry->offset =  (int)record[ATTRCAT_OFFSET_INDEX].nVal;
 }
 
-*/
+
 //-----------stage 4 -------------
 
 // returns the attribute with name `attrName` for the relation corresponding to relId
