@@ -130,7 +130,7 @@ int Algebra::select(char srcRel[ATTR_SIZE], char targetRel[ATTR_SIZE], char attr
 
 //----------stage4 exer ---------
 
-/*
+
 int Algebra::insert(char relName[ATTR_SIZE], int nAttrs, char record[][ATTR_SIZE]){
     // if relName is equal to "RELATIONCAT" or "ATTRIBUTECAT"
     // return E_NOTPERMITTED;
@@ -149,27 +149,30 @@ int Algebra::insert(char relName[ATTR_SIZE], int nAttrs, char record[][ATTR_SIZE
     }
     // get the relation catalog entry from relation cache
     // (use RelCacheTable::getRelCatEntry() of Cache Layer)
-    RelCatEntry* relCatBuf;
-    RelCacheTable::getRelCatEntry(relId, relCatBuf); 
+    RelCatEntry *relCatEntry ;
+    RelCacheTable::getRelCatEntry(relId, relCatEntry); 
     /* if relCatEntry.numAttrs != numberOfAttributes in relation,
        return E_NATTRMISMATCH */
- /*   
-    if(relCatBuf.numAttrs != )
+ 
+    if(relCatEntry->numAttrs != nAttrs)
     {
       return E_NATTRMISMATCH;
     }
     // let recordValues[numberOfAttributes] be an array of type union Attribute
-
+  union Attribute recordValues[nAttrs];
     /*
         Converting 2D char array of record values to Attribute array recordValues
      */
+
     // iterate through 0 to nAttrs-1: (let i be the iterator)
-  /* 
+
+    for(int i =0; i<= nAttrs-1; i++)
     {
         // get the attr-cat entry for the i'th attribute from the attr-cache
         // (use AttrCacheTable::getAttrCatEntry())
-
-        // let type = attrCatEntry.attrType;
+        AttrCatEntry* attrCat;
+        AttrCacheTable::getAttrCatEntry(relId, );
+        type = attrCatEntry.attrType;
 
         if (type == NUMBER)
         {
@@ -178,7 +181,7 @@ int Algebra::insert(char relName[ATTR_SIZE], int nAttrs, char record[][ATTR_SIZE
             {
                 /* convert the char array to numeral and store it
                    at recordValues[i].nVal using atof() 
-                   
+                  */ 
             }
             // else
             {
