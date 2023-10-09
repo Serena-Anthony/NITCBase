@@ -131,6 +131,7 @@ int Algebra::select(char srcRel[ATTR_SIZE], char targetRel[ATTR_SIZE], char attr
 
 //----------stage4 exer ---------
 
+/*
 int Algebra::insert(char relName[ATTR_SIZE], int nAttrs, char record[][ATTR_SIZE]){
     // if relName is equal to "RELATIONCAT" or "ATTRIBUTECAT"
     // return E_NOTPERMITTED;
@@ -153,7 +154,7 @@ int Algebra::insert(char relName[ATTR_SIZE], int nAttrs, char record[][ATTR_SIZE
     RelCacheTable::getRelCatEntry(relId, &relCatEntry); 
     /* if relCatEntry.numAttrs != numberOfAttributes in relation,
        return E_NATTRMISMATCH */
- 
+ /*
     if(relCatEntry.numAttrs != nAttrs)
     {
       return E_NATTRMISMATCH;
@@ -164,7 +165,7 @@ int Algebra::insert(char relName[ATTR_SIZE], int nAttrs, char record[][ATTR_SIZE
         Converting 2D char array of record values to Attribute array recordValues
      */
     // iterate through 0 to nAttrs-1: (let i be the iterator)
-
+/*
     for(int i =0; i<nAttrs; i++)
     {
         // get the attr-cat entry for the i'th attribute from the attr-cache
@@ -202,3 +203,4 @@ int Algebra::insert(char relName[ATTR_SIZE], int nAttrs, char record[][ATTR_SIZE
     int retVal = BlockAccess::insert(relId, recordValues);
     return retVal;
 }
+*/
