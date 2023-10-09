@@ -387,11 +387,11 @@ if(relidcheck>=0)
       before calling linearSearch().*/
 Attribute attrVal;
 strcpy(attrVal.sVal, relName);
-char relation_name[];
+char* relation_name = RELCAT_ATTR_RELNAME;
 
 RelCacheTable::resetSearchIndex(RELCAT_RELID);
   // relcatRecId stores the rec-id of the relation `relName` in the Relation Catalog.
-  RecId relcatRecId= BlockAccess::linearSearch(RELCAT_RELID, ,attrVal,EQ);
+  RecId relcatRecId= BlockAccess::linearSearch(RELCAT_RELID,relation_name ,attrVal,EQ);
 
  
   if (relcatRecId.block==-1 && relcatRecId.slot==-1) {
