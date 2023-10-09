@@ -199,4 +199,3 @@ int Algebra::insert(char relName[ATTR_SIZE], int nAttrs, char record[][ATTR_SIZE
 
     return retVal;
 }
-*/
