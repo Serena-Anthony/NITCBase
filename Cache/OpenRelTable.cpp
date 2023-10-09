@@ -387,8 +387,10 @@ if(relidcheck>=0)
       before calling linearSearch().*/
 Attribute attrVal;
 strcpy(attrVal.sVal, relName);
-char* relation_name = RELCAT_ATTR_RELNAME;
+  
 
+char relation_name[strlen(RELCAT_ATTR_RELNAME) + 1]; // +1 for the null terminator
+strcpy(relation_name, RELCAT_ATTR_RELNAME);
 RelCacheTable::resetSearchIndex(RELCAT_RELID);
   // relcatRecId stores the rec-id of the relation `relName` in the Relation Catalog.
   RecId relcatRecId= BlockAccess::linearSearch(RELCAT_RELID,relation_name ,attrVal,EQ);
@@ -440,8 +442,9 @@ RelCacheTable::resetSearchIndex(RELCAT_RELID);
   {
       /* let attrcatRecId store a valid record id an entry of the relation, relName,
       in the Attribute Catalog.*/
-
-      RecId attrcatRecId=BlockAccess::linearSearch(ATTRCAT_RELID, RELCAT_ATTR_RELNAME, attrVal, EQ);
+char relation_name[strlen(RELCAT_ATTR_RELNAME) + 1]; // +1 for the null terminator
+strcpy(relation_name, RELCAT_ATTR_RELNAME);
+      RecId attrcatRecId=BlockAccess::linearSearch(ATTRCAT_RELID,relation_name , attrVal, EQ);
     RecBuffer attrCatBlock(attrcatRecId.block);
     attrCatBlock.getRecord(attrCatRecord, attrcatRecId.slot);
 
