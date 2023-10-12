@@ -11,7 +11,7 @@ RecId BlockAccess::linearSearch(int relId, char attrName[ATTR_SIZE], union Attri
     RecId prevRecId;
     RelCacheTable::getSearchIndex(relId, &prevRecId);
     // let block and slot denote the record id of the record being currently checked
-    int block = -1, slot =1;
+    int block = -1, slot =-1;
     // if the current search index record is invalid(i.e. both block and slot = -1)
     if (prevRecId.block == -1 && prevRecId.slot == -1)
     {

@@ -400,6 +400,7 @@ RelCacheTable::resetSearchIndex(RELCAT_RELID);
     // (the relation is not found in the Relation Catalog.)
     return E_RELNOTEXIST;
   }
+
   RecBuffer relationBuffer(relcatRecId.block);
   Attribute relationRecord[RELCAT_NO_ATTRS];
   RelCacheEntry *relCacheBuffer = nullptr;
@@ -411,6 +412,7 @@ RelCacheTable::resetSearchIndex(RELCAT_RELID);
       use the Relation Cache entry to set the relId-th entry of the RelCacheTable.
     NOTE: make sure to allocate memory for the RelCacheEntry using malloc()
   */
+
   relationBuffer.getRecord(relationRecord, relcatRecId.slot);
   relCacheBuffer = (RelCacheEntry *)malloc(sizeof(RelCacheEntry));
   RelCacheTable::recordToRelCatEntry(relationRecord,
@@ -424,6 +426,7 @@ RelCacheTable::resetSearchIndex(RELCAT_RELID);
 
   RelCacheTable::relCache[relid] = relCacheBuffer;
   Attribute attrCatRecord[ATTRCAT_NO_ATTRS];
+
   /****** Setting up Attribute Cache entry for the relation ******/
 
   // let listHead be used to hold the head of the linked list of attrCache entries.
@@ -436,6 +439,7 @@ RelCacheTable::resetSearchIndex(RELCAT_RELID);
     int numberOfAttributes = RelCacheTable::relCache[relid]->relCatEntry.numAttrs;
   listhead = createAttrList(numberOfAttributes);
   attrCacheEntry = listhead;
+
   RelCacheTable::resetSearchIndex(ATTRCAT_RELID);
   // while (numberOfAttributes--)
   for (int attr = 0; attr < numberOfAttributes; attr++) 
@@ -480,11 +484,16 @@ int OpenRelTable::closeRel(int relId) {
     return E_NOTPERMITTED;
   }
 
-  if (0<= relId< MAX_OPEN) {
+  if (0< relId|| relId >= MAX_OPEN) {
     return E_OUTOFBOUND;
   }
 
   if (tableMetaInfo[relId].free) {
+    return E_RELNOTOPEN;
+  }
+
+  if(AttrCacheTable::attrCache[relId]==nullptr)
+  {
     return E_RELNOTOPEN;
   }
 
@@ -514,7 +523,7 @@ int OpenRelTable::closeRel(int relId) {
 
 OpenRelTable::~OpenRelTable() {
 
-  // close all open relations (from rel-id = 2 onwards. Why?)
+  // close all open relations (from rel-id = 2 onwards. Why? CUZ rel n attr in beginning cnt be closed)
   for (int i = 2; i < MAX_OPEN; ++i) {
     if (!tableMetaInfo[i].free) {
       OpenRelTable::closeRel(i); // we will implement this function later

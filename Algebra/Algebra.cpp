@@ -68,9 +68,10 @@ int Algebra::select(char srcRel[ATTR_SIZE], char targetRel[ATTR_SIZE], char attr
   // Before calling the search function, reset the search to start from the first hit
   // using RelCacheTable::resetSearchIndex()
   RelCacheTable::resetSearchIndex(srcRelId);
+  // get relCatEntry using RelCacheTable::getRelCatEntry()
   RelCatEntry relCatEntry;
   RelCacheTable::getRelCatEntry(srcRelId,&relCatEntry);
-  // get relCatEntry using RelCacheTable::getRelCatEntry()
+  
 
   /************************
   The following code prints the contents of a relation directly to the output
