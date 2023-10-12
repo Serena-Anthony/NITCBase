@@ -54,9 +54,9 @@ int renameRel(char oldRelName[ATTR_SIZE], char newRelName[ATTR_SIZE]) {
     // if the relation is open
     //    (check if OpenRelTable::getRelId() returns E_RELNOTOPEN)
     //    return E_RELOPEN
-if(OpenRelTable::getRelId()==E_RELNOTOPEN)
+if(OpenRelTable::getRelId(oldRelName)!=E_RELNOTOPEN)
 {
-  return E_RELNOTOPEN;
+  return E_RELOPEN;
 }
     int retVal = BlockAccess::renameRelation(oldRelName, newRelName);
      return retVal;
@@ -74,11 +74,12 @@ int Schema::renameAttr(char *relName, char *oldAttrName, char *newAttrName) {
     // if the relation is open
         //    (check if OpenRelTable::getRelId() returns E_RELNOTOPEN)
         //    return E_RELOPEN
-if(OpenRelTable::getRelId()==E_RELNOTOPEN)
+if(OpenRelTable::getRelId(relName)!=E_RELNOTOPEN)
 {
-  return E_RELNOTOPEN;
+  return E_RELOPEN;
 }
     // Call BlockAccess::renameAttribute with appropriate arguments.
-
+ int retVal = BlockAccess::renameAttribute()
     // return the value returned by the above renameAttribute() call
+    return retVal
 }

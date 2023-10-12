@@ -203,7 +203,9 @@ int BlockAccess::renameAttribute(char relName[ATTR_SIZE], char oldName[ATTR_SIZE
 
     /* reset the searchIndex of the relation catalog using
        RelCacheTable::resetSearchIndex() */
-
+    RelCacheEntry *relcache;
+    int relid = 
+   RelCacheTable::resetSearchIndex(relid); 
     Attribute relNameAttr;    // set relNameAttr to relName
 
     // Search for the relation with name relName in relation catalog using linearSearch()
