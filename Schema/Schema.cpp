@@ -79,7 +79,7 @@ if(OpenRelTable::getRelId(relName)!=E_RELNOTOPEN)
   return E_RELOPEN;
 }
     // Call BlockAccess::renameAttribute with appropriate arguments.
- int retVal = BlockAccess::renameAttribute()
+ int retVal = BlockAccess::renameAttribute(relName, oldAttrName, newAttrName);
     // return the value returned by the above renameAttribute() call
-    return retVal
+    return retVal;
 }
