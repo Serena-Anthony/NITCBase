@@ -138,6 +138,12 @@ int BlockAccess::renameRelation(char oldName[ATTR_SIZE], char newName[ATTR_SIZE]
     /* reset the searchIndex of the relation catalog using
        RelCacheTable::resetSearchIndex() */
     int relid=0;
+
+    if(strcmp(newName,RELCAT_RELNAME)==0 || strcmp(newName, ATTRCAT_RELNAME)==0)
+    {
+      return E_NOTPERMITTED;
+    }
+
     if(strcmp(oldName, RELCAT_RELNAME)==0)
     {
       relid = RELCAT_RELID;
@@ -161,6 +167,7 @@ int BlockAccess::renameRelation(char oldName[ATTR_SIZE], char newName[ATTR_SIZE]
     /* reset the searchIndex of the relation catalog using
        RelCacheTable::resetSearchIndex() */
     RelCacheTable::resetSearchIndex(RELCAT_RELID);
+   
     Attribute oldRelationName;    // set oldRelationName with oldName
     strcpy(oldRelationName.sVal, oldName);
     // search the relation catalog for an entry with "RelName" = oldRelationName
