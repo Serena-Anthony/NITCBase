@@ -139,10 +139,10 @@ int BlockAccess::renameRelation(char oldName[ATTR_SIZE], char newName[ATTR_SIZE]
        RelCacheTable::resetSearchIndex() */
    //  int relid=0;
 
-   //  if(strcmp(newName,RELCAT_RELNAME)==0 || strcmp(newName, ATTRCAT_RELNAME)==0)
-   //  {
-   //    return E_NOTPERMITTED;
-   //  }
+    if(strcmp(newName,RELCAT_RELNAME)==0 || strcmp(newName, ATTRCAT_RELNAME)==0)
+    {
+      return E_NOTPERMITTED;
+    }
 
    //  if(strcmp(oldName, RELCAT_RELNAME)==0)
    //  {
