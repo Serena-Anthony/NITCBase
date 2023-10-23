@@ -101,3 +101,38 @@ int RelCacheTable::resetSearchIndex(int relId) {
   RelCacheTable::relCache[relId]->searchIndex ={-1,-1};
   return SUCCESS;
 }
+
+// Description :Sets the Relation Catalog entry corresponding to the 
+// specified relation in the Relation Cache Table.
+int RelCacheTable::setRelCatEntry(int relId, RelCatEntry *relCatBuf) {
+
+  if(relId<0 || relId >= MAX_OPEN) {
+    return E_OUTOFBOUND;
+  }
+
+  if(RelCacheTable::relCache[relId]==nullptr) {
+    return E_RELNOTOPEN;
+  }
+
+  // copy the relCatBuf to the corresponding Relation Catalog entry in
+  // the Relation Cache Table.
+  memcpy(&(RelCacheTable::relCache[relId]->relCatEntry), relCatBuf, sizeof(RelCatEntry));
+
+  // set the dirty flag of the corresponding Relation Cache entry in
+  // the Relation Cache Table.
+  RelCacheTable::relCache[relId]->dirty = true;
+  return SUCCESS;
+}
+
+// A utility function that converts RelCatEntry structure to a record, 
+// implemented as an array of union Attribute
+void RelCacheTable :: relCatEntryToRecord(RelCatEntry *ptr, union Attribute record[RELCAT_NO_ATTRS])
+{
+  strcpy(record[RELCAT_REL_NAME_INDEX].sVal, ptr->relName);
+  record[RELCAT_NO_ATTRIBUTES_INDEX].nVal = ptr->numAttrs;
+  record[RELCAT_NO_RECORDS_INDEX].nVal = ptr->numRecs;
+  record[RELCAT_FIRST_BLOCK_INDEX].nVal= ptr->firstBlk;
+  record[RELCAT_LAST_BLOCK_INDEX].nVal=ptr->lastBlk;
+  record[RELCAT_NO_SLOTS_PER_BLOCK_INDEX].nVal = ptr->numSlotsPerBlk;
+
+}
