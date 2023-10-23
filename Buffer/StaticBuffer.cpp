@@ -101,7 +101,7 @@ int StaticBuffer::getBufferNum(int blockNum)
  
  for (int bufferIndex = 0 ; bufferIndex< BUFFER_CAPACITY; bufferIndex++) 
  {
-	if(metainfo[bufferIndex].blockNum ==blockNum)
+	if(metainfo[bufferIndex].blockNum == blockNum)
 	{
 	return bufferIndex;
 	}
@@ -129,11 +129,12 @@ int StaticBuffer::setDirtyBit(int blockNum){
     {
       return E_OUTOFBOUND;
     }
-    // else
-    //     (the bufferNum is valid)
-    //     set the dirty bit of that buffer to true in metainfo
     else{
       metainfo[bufferindex].dirty = true;
     }
+    // else
+    //     (the bufferNum is valid)
+    //     set the dirty bit of that buffer to true in metainfo
+    
      return SUCCESS;
 }

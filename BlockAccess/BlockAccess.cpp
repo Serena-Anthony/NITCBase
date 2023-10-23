@@ -137,18 +137,19 @@ RecId BlockAccess::linearSearch(int relId, char attrName[ATTR_SIZE], union Attri
 int BlockAccess::renameRelation(char oldName[ATTR_SIZE], char newName[ATTR_SIZE]){
     /* reset the searchIndex of the relation catalog using
        RelCacheTable::resetSearchIndex() */
-    int relid=0;
+   //  int relid=0;
 
-    if(strcmp(newName,RELCAT_RELNAME)==0 || strcmp(newName, ATTRCAT_RELNAME)==0)
-    {
-      return E_NOTPERMITTED;
-    }
+   //  if(strcmp(newName,RELCAT_RELNAME)==0 || strcmp(newName, ATTRCAT_RELNAME)==0)
+   //  {
+   //    return E_NOTPERMITTED;
+   //  }
 
-    if(strcmp(oldName, RELCAT_RELNAME)==0)
-    {
-      relid = RELCAT_RELID;
-    }
-    RelCacheTable::resetSearchIndex(relid);
+   //  if(strcmp(oldName, RELCAT_RELNAME)==0)
+   //  {
+   //    relid = RELCAT_RELID;
+   //  }
+
+    RelCacheTable::resetSearchIndex(RELCAT_RELID);
 
     Attribute newRelationName;    // set newRelationName with newName
    strcpy(newRelationName.sVal, newName);

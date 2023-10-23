@@ -355,7 +355,7 @@ int OpenRelTable::getRelId(char relName[ATTR_SIZE]) {
   // have an entry in the Open Relation Table.
   return E_RELNOTOPEN;
 }
-
+// desp : Creates an entry for the input relation in the Open Relation Table and returns the corresponding relation id.
 int OpenRelTable::openRel(char relName[ATTR_SIZE]) {
 
   //if(/* the relation `relName` already has an entry in the Open Relation Table */){
@@ -365,8 +365,6 @@ if(relidcheck>=0)
        return relidcheck;
     // return that relation id;
    
-  
-
   /* find a free slot in the Open Relation Table
      using OpenRelTable::getFreeOpenRelTableEntry(). */
   int relid= OpenRelTable::getFreeOpenRelTableEntry();
@@ -374,8 +372,6 @@ if(relidcheck>=0)
   if(relid==E_CACHEFULL){
     return E_CACHEFULL;
   }
-
-  
   // let relId be used to store the free slot.
   
 
@@ -480,7 +476,7 @@ int OpenRelTable::closeRel(int relId) {
     return E_NOTPERMITTED;
   }
 
-  if (0<= relId< MAX_OPEN) {
+  if (0< relId || relId >= MAX_OPEN) {
     return E_OUTOFBOUND;
   }
 

@@ -264,7 +264,7 @@ int RecBuffer::setRecord(union Attribute *rec, int slotNum) {
        (hint: a record will be of size ATTR_SIZE * numAttrs)
     */
    int recordsize = ATTR_SIZE*attrcount;
-   unsigned char *slotpointer = bufferPtr+ 32 +slotcount+ (recordsize*slotNum); 
+   unsigned char *slotpointer = bufferPtr+ HEADER_SIZE + slotcount +(recordsize*slotNum); 
 
     // update dirty bit using setDirtyBit()
     memcpy(slotpointer, rec, recordsize);
