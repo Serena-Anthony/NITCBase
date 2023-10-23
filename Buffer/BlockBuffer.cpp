@@ -280,3 +280,29 @@ int RecBuffer::setRecord(union Attribute *rec, int slotNum) {
     // return SUCCESS
     return SUCCESS;
 }
+
+//Sets the header of the block. 
+//Any type of block NITCbase has the same header structure.
+// Therefore, setHeader() method is kept in abstract BlockBuffer class
+
+int BlockBuffer::setHeader(struct HeadInfo *head){
+
+    unsigned char *bufferPtr;
+    // get the starting address of the buffer containing the block using
+    // loadBlockAndGetBufferPtr(&bufferPtr).
+
+    // if loadBlockAndGetBufferPtr(&bufferPtr) != SUCCESS
+        // return the value returned by the call.
+
+    // cast bufferPtr to type HeadInfo*
+    struct HeadInfo *bufferHeader = (struct HeadInfo *)bufferPtr;
+
+    // copy the fields of the HeadInfo pointed to by head (except reserved) to
+    // the header of the block (pointed to by bufferHeader)
+    //(hint: bufferHeader->numSlots = head->numSlots )
+
+    // update dirty bit by calling StaticBuffer::setDirtyBit()
+    // if setDirtyBit() failed, return the error code
+
+    // return SUCCESS;
+}

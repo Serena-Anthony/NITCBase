@@ -8,12 +8,24 @@ using namespace std;
 unsigned char StaticBuffer::blocks[BUFFER_CAPACITY][BLOCK_SIZE];
 struct BufferMetaInfo StaticBuffer::metainfo[BUFFER_CAPACITY];
 
-
+//--stage7--
+unsigned char StaticBuffer::blockAllocMap[DISK_BLOCKS];
 StaticBuffer::StaticBuffer() {
 //make everything tru(declare as free) initially
+
+// copy blockAllocMap blocks from disk to buffer (using readblock() of disk)
+  // blocks 0 to 3
+for(int i =0, bmapslot=0; i<4; i++)
+{
+  unsigned char buffer[BLOCK_SIZE];
+  Disk::readBlock(buffer, i);
+  for(int slot =0; slot< BLOCK_SIZE; slot++)
+  {
+    StaticBuffer::blockAllocMap[bmapslot] = buffer[slot];
+  }
+}
 for (int bufferIndex = 0 ; bufferIndex<BUFFER_CAPACITY; bufferIndex++) {
 	metainfo[bufferIndex].free = true;
-  // add next lines in stage6//
   metainfo[bufferIndex].dirty = false;
   metainfo[bufferIndex].timeStamp = -1;
   metainfo[bufferIndex].blockNum = -1;
@@ -29,7 +41,16 @@ subsequent stages, we will implement the write-back functionality here.
 StaticBuffer::~StaticBuffer(){
 //empty deconstructor
   // In subsequent stages, implement the write-back functionality here
+for(int i =0, bmapslot =0; i<4; i++)
+{
+  unsigned char buffer[BLOCK_SIZE];
+  for(int slot =0; slot < BLOCK_SIZE ; slot++, bmapslot++)
+  {
+    buffer[slot] = blockAllocMap[bmapslot];
+  }
 
+  Disk::writeBlock(buffer, i);
+}
   // -----stage6 writeback on system exit-----
   for (int bufferIndex = 0 ; bufferIndex<BUFFER_CAPACITY; bufferIndex++){
     if(metainfo[bufferIndex].free == false && metainfo[bufferIndex].dirty == true)
@@ -137,4 +158,17 @@ int StaticBuffer::setDirtyBit(int blockNum){
     //     set the dirty bit of that buffer to true in metainfo
     
      return SUCCESS;
+}
+
+//--------stage7----------------------
+// declare the blockAllocMap array
+unsigned char StaticBuffer::blockAllocMap[DISK_BLOCKS];
+
+StaticBuffer::~StaticBuffer() {
+  // copy blockAllocMap blocks from buffer to disk(using writeblock() of disk)
+
+  /*iterate through all the buffer blocks,
+    write back blocks with metainfo as free:false,dirty:true
+    (you did this already)
+  */
 }
