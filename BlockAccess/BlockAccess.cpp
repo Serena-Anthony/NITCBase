@@ -299,6 +299,7 @@ RelCacheTable::resetSearchIndex(ATTRCAT_RELID);
     return SUCCESS;
 }
 
+
 int BlockAccess::insert(int relId, Attribute *record) {
     // get the relation catalog entry from relation cache
     // ( use RelCacheTable::getRelCatEntry() of Cache Layer)
@@ -312,7 +313,7 @@ int BlockAccess::insert(int relId, Attribute *record) {
     int numOfSlots = relCatbuf.numSlotsPerBlk/* number of slots per record block */;
     int numOfAttributes = relCatbuf.numAttrs/* number of attributes of the relation */;
 
-    int prevBlockNum = relCatbuf.lastBlk/* block number of the last element in the linked list = -1 */;
+    int prevBlockNum =-1/* block number of the last element in the linked list = -1 */;
 
     /*
         Traversing the linked list of existing record blocks of the relation
@@ -321,15 +322,24 @@ int BlockAccess::insert(int relId, Attribute *record) {
     */
     while (blockNum != -1) {
         // create a RecBuffer object for blockNum (using appropriate constructor!)
-
+        RecBuffer recBuffer(blockNum);
         // get header of block(blockNum) using RecBuffer::getHeader() function
-
+        HeadInfo header;
+        recBuffer.getHeader(&header);
         // get slot map of block(blockNum) using RecBuffer::getSlotMap() function
-
+        unsigned char *slotmap = (unsigned char *)malloc(sizeof(unsigned char)* header.numSlots);
+        recBuffer.getSlotMap(slotmap);
         // search for free slot in the block 'blockNum' and store it's rec-id in rec_id
         // (Free slot can be found by iterating over the slot map of the block)
         /* slot map stores SLOT_UNOCCUPIED if slot is free and
            SLOT_OCCUPIED if slot is occupied) */
+           for(auto x: slotmap)
+           {
+            if(x==SLOT_UNOCCUPIED)
+            {
+                
+            }
+           }
 
         /* if a free slot is found, set rec_id and discontinue the traversal
            of the linked list of record blocks (break from the loop) */
@@ -346,12 +356,13 @@ int BlockAccess::insert(int relId, Attribute *record) {
     {
         // if relation is RELCAT, do not allocate any more blocks
         //     return E_MAXRELATIONS;
-
+         
         // Otherwise,
         // get a new record block (using the appropriate RecBuffer constructor!)
         // get the block number of the newly allocated block
         // (use BlockBuffer::getBlockNum() function)
         // let ret be the return value of getBlockNum() function call
+        int ret = BlockBuffer::getBlockNum();
         if (ret == E_DISKFULL) {
             return E_DISKFULL;
         }

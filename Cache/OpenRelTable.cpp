@@ -541,7 +541,7 @@ int OpenRelTable::closeRel(int relId) {
     Then convert it to a record using RelCacheTable::relCatEntryToRecord(). */
 
     Attribute record[RELCAT_NO_ATTRS];
-     RelCacheTable::relCatEntryToRecord(&(RelCacheTable::relCache[relId]->relCatEntry),record);
+    RelCacheTable::relCatEntryToRecord(&(RelCacheTable::relCache[relId]->relCatEntry),record);
 
     // declaring an object of RecBuffer class to write back to the buffer
     RecId recId = RelCacheTable::relCache[relId]->recId;
@@ -562,10 +562,10 @@ int OpenRelTable::closeRel(int relId) {
 
 
   /****** Set the Open Relation Table entry of the relation as free ******/
- AttrCacheEntry *head = AttrCacheTable::attrCache[relId];
+  AttrCacheEntry *head = AttrCacheTable::attrCache[relId];
 	AttrCacheEntry *next = head->next;
 
-	while (next) {
+4	while (next) {
 		free (head);
 		head = next;
 		next = next->next;

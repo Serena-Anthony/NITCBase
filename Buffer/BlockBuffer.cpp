@@ -424,4 +424,38 @@ int BlockBuffer::getFreeBlock(int blockType){
     return block;
 }
 
+//Sets the slotmap of the block.
+int RecBuffer::setSlotMap(unsigned char *slotMap) {
+    unsigned char *bufferPtr;
+    /* get the starting address of the buffer containing the block using
+       loadBlockAndGetBufferPtr(&bufferPtr). */
+    int temp = BlockBuffer::loadBlockAndGetBufferPtr(&bufferPtr);
+    // if loadBlockAndGetBufferPtr(&bufferPtr) != SUCCESS
+        // return the value returned by the call.
+  if(temp!= SUCCESS)
+  {
+    return temp;
+  }
 
+    HeadInfo header;
+    BlockBuffer::getHeader(&header);
+    // get the header of the block using the getHeader() function
+
+    int numSlots = header.numSlots;/* the number of slots in the block */
+
+    // the slotmap starts at bufferPtr + HEADER_SIZE. Copy the contents of the
+    // argument `slotMap` to the buffer replacing the existing slotmap.
+    // Note that size of slotmap is `numSlots`
+    memcpy(bufferPtr+HEADER_SIZE , slotMap, numSlots );
+    // update dirty bit using StaticBuffer::setDirtyBit
+    // if setDirtyBit failed, return the value returned by the call
+       int temp = StaticBuffer::setDirtyBit(this->blockNum);
+        return temp;    
+    
+    return SUCCESS;
+}
+
+int BlockBuffer::getBlockNum(){
+  return this->blockNum;
+    //return corresponding block number.
+}
