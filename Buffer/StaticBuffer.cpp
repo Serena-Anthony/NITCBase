@@ -24,6 +24,7 @@ for(int i =0, bmapslot=0; i<4; i++)
     StaticBuffer::blockAllocMap[bmapslot] = buffer[slot];
   }
 }
+
 for (int bufferIndex = 0 ; bufferIndex<BUFFER_CAPACITY; bufferIndex++) {
 	metainfo[bufferIndex].free = true;
   metainfo[bufferIndex].dirty = false;

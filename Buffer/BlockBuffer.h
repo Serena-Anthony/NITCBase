@@ -47,6 +47,7 @@ class BlockBuffer {
   int getFreeBlock(int blockType);
   int setBlockType(int blockType);
 
+
  public:
   // methods
   BlockBuffer(char blockType);

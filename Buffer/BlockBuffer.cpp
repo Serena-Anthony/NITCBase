@@ -104,7 +104,6 @@ BlockBuffer::BlockBuffer(char blockType){
     if(temp <0 || temp >=DISK_BLOCKS)
     {
       cout << "error : block is not available \n";
-      this->blockNum = temp;
       return;
     }
     // (The caller must check if the constructor allocatted block successfully
