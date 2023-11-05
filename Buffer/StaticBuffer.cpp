@@ -162,14 +162,13 @@ int StaticBuffer::setDirtyBit(int blockNum){
 }
 
 //--------stage7----------------------
-// declare the blockAllocMap array
-unsigned char StaticBuffer::blockAllocMap[DISK_BLOCKS];
+// declare the blockAllocMap array--> done at beginning of this file
 
-StaticBuffer::~StaticBuffer() {
-  // copy blockAllocMap blocks from buffer to disk(using writeblock() of disk)
+// StaticBuffer::~StaticBuffer() {
+//   // copy blockAllocMap blocks from buffer to disk(using writeblock() of disk)
 
-  /*iterate through all the buffer blocks,
-    write back blocks with metainfo as free:false,dirty:true
-    (you did this already)
-  */
-}
+//   /*iterate through all the buffer blocks,
+//     write back blocks with metainfo as free:false,dirty:true
+//     (you did this already)
+//   */
+// }

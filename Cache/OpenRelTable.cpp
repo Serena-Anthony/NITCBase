@@ -469,44 +469,44 @@ strcpy(relation_name, RELCAT_ATTR_RELNAME);
   // relName as the input.
 
   return relid;
-}
+ }
 
-int OpenRelTable::closeRel(int relId) {
-  if (relId==RELCAT_RELID || relId==ATTRCAT_RELID) {
-    return E_NOTPERMITTED;
-  }
+// int OpenRelTable::closeRel(int relId) {
+//   if (relId==RELCAT_RELID || relId==ATTRCAT_RELID) {
+//     return E_NOTPERMITTED;
+//   }
 
-  if (0< relId || relId >= MAX_OPEN) {
-    return E_OUTOFBOUND;
-  }
+//   if (0< relId || relId >= MAX_OPEN) {
+//     return E_OUTOFBOUND;
+//   }
 
-  if (tableMetaInfo[relId].free) {
-    return E_RELNOTOPEN;
-  }
+//   if (tableMetaInfo[relId].free) {
+//     return E_RELNOTOPEN;
+//   }
 
-  // free the memory allocated in the relation and attribute caches which was
-  // allocated in the OpenRelTable::openRel() function
+//   // free the memory allocated in the relation and attribute caches which was
+//   // allocated in the OpenRelTable::openRel() function
   
-  free(RelCacheTable::relCache[relId]);
-  AttrCacheEntry *head = AttrCacheTable::attrCache[relId];
-  AttrCacheEntry *next = head->next;
+//   free(RelCacheTable::relCache[relId]);
+//   AttrCacheEntry *head = AttrCacheTable::attrCache[relId];
+//   AttrCacheEntry *next = head->next;
 
-  while (next) {
-    free(head);
-    head = next;
-    next = next->next;
-  }
-  free(head);
-  // update `tableMetaInfo` to set `relId` as a free slot
-  // update `relCache` and `attrCache` to set the entry at `relId` to nullptr
+//   while (next) {
+//     free(head);
+//     head = next;
+//     next = next->next;
+//   }
+//   free(head);
+//   // update `tableMetaInfo` to set `relId` as a free slot
+//   // update `relCache` and `attrCache` to set the entry at `relId` to nullptr
   
-    RelCacheTable::relCache[relId] = nullptr;
-    AttrCacheTable::attrCache[relId] = nullptr;
-    tableMetaInfo[relId].free= true;
+//     RelCacheTable::relCache[relId] = nullptr;
+//     AttrCacheTable::attrCache[relId] = nullptr;
+//     tableMetaInfo[relId].free= true;
   
 
-  return SUCCESS;
-}
+//   return SUCCESS;
+// }
 
 OpenRelTable::~OpenRelTable() {
 
@@ -532,9 +532,8 @@ int OpenRelTable::closeRel(int relId) {
 
   	if (tableMetaInfo[relId].free) return E_RELNOTOPEN;
   /****** Releasing the Relation Cache entry of the relation ******/
-
-  if (/* RelCatEntry of the relId-th Relation Cache entry has been modified */
-      RelCacheTable::relCache[relId]->dirty ==true )
+  /* RelCatEntry of the relId-th Relation Cache entry has been modified */
+  if (RelCacheTable::relCache[relId]->dirty ==true )
   {
 
     /* Get the Relation Catalog entry from RelCacheTable::relCache
@@ -565,11 +564,12 @@ int OpenRelTable::closeRel(int relId) {
   AttrCacheEntry *head = AttrCacheTable::attrCache[relId];
 	AttrCacheEntry *next = head->next;
 
-4	while (next) {
-		free (head);
+  while(next!=nullptr) {
+		free(head);
 		head = next;
 		next = next->next;
 	}
+
 	free(head);	
 
   // update `metainfo` to set `relId` as a free slot

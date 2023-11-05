@@ -448,8 +448,8 @@ int RecBuffer::setSlotMap(unsigned char *slotMap) {
     memcpy(bufferPtr+HEADER_SIZE , slotMap, numSlots );
     // update dirty bit using StaticBuffer::setDirtyBit
     // if setDirtyBit failed, return the value returned by the call
-       int temp = StaticBuffer::setDirtyBit(this->blockNum);
-        return temp;    
+       int done = StaticBuffer::setDirtyBit(this->blockNum);
+        return done;    
     
     return SUCCESS;
 }
