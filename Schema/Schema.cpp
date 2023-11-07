@@ -83,3 +83,74 @@ if(OpenRelTable::getRelId(relName)!=E_RELNOTOPEN)
     // return the value returned by the above renameAttribute() call
     return retVal;
 }
+
+// This method creates a new relation with the name, attribute/column list as specified
+//  in arguments. Verifying the maximum number of attributes in a relation is to be checked 
+//  by the caller of this function (Frontend Interface) and is not handled by this function.
+int Schema::createRel(char relName[],int nAttrs, char attrs[][ATTR_SIZE],int attrtype[]){
+
+    // declare variable relNameAsAttribute of type Attribute
+    Attribute relNameAsAttribute;
+    // copy the relName into relNameAsAttribute.sVal
+    strcpy( (char*)(relNameAsAttribute.sVal), (const char*)(relName));
+    // declare a variable targetRelId of type RecId
+    RecId targetRelId;
+    // Reset the searchIndex using RelCacheTable::resetSearhIndex()
+    
+    RelCacheTable::resetSearchIndex(RELCAT_RELID);
+    // Search the relation catalog (relId given by the constant RELCAT_RELID)
+    // for attribute value attribute "RelName" = relNameAsAttribute using
+    // BlockAccess::linearSearch() with OP = EQ
+    targetRelId = BlockAccess::linearSearch(RELCAT_RELID, relName, relNameAsAttribute, EQ );
+    // if a relation with name `relName` already exists  ( linearSearch() does
+    //                                                     not return {-1,-1} )
+    //     return E_RELEXIST;
+    if(targetRelId.block!=-1 && targetRelId.slot !=-1) 
+    {
+      return E_RELEXIST;
+    }
+    // compare every pair of attributes of attrNames[] array
+    // if any attribute names have same string value,
+    //     return E_DUPLICATEATTR (i.e 2 attributes have same value)
+    
+    /* declare relCatRecord of type Attribute which will be used to store the
+       record corresponding to the new relation which will be inserted
+       into relation catalog */
+    Attribute relCatRecord[RELCAT_NO_ATTRS];
+    // fill relCatRecord fields as given below
+    // offset RELCAT_REL_NAME_INDEX: relName
+    // offset RELCAT_NO_ATTRIBUTES_INDEX: numOfAttributes
+    // offset RELCAT_NO_RECORDS_INDEX: 0
+    // offset RELCAT_FIRST_BLOCK_INDEX: -1
+    // offset RELCAT_LAST_BLOCK_INDEX: -1
+    // offset RELCAT_NO_SLOTS_PER_BLOCK_INDEX: floor((2016 / (16 * nAttrs + 1)))
+    // (number of slots is calculated as specified in the physical layer docs)
+
+    // retVal = BlockAccess::insert(RELCAT_RELID(=0), relCatRecord);
+    // if BlockAccess::insert fails return retVal
+    // (this call could fail if there is no more space in the relation catalog)
+
+    // iterate through 0 to numOfAttributes - 1 :
+    {
+        /* declare Attribute attrCatRecord[6] to store the attribute catalog
+           record corresponding to i'th attribute of the argument passed*/
+        // (where i is the iterator of the loop)
+        // fill attrCatRecord fields as given below
+        // offset ATTRCAT_REL_NAME_INDEX: relName
+        // offset ATTRCAT_ATTR_NAME_INDEX: attrNames[i]
+        // offset ATTRCAT_ATTR_TYPE_INDEX: attrTypes[i]
+        // offset ATTRCAT_PRIMARY_FLAG_INDEX: -1
+        // offset ATTRCAT_ROOT_BLOCK_INDEX: -1
+        // offset ATTRCAT_OFFSET_INDEX: i
+
+        // retVal = BlockAccess::insert(ATTRCAT_RELID(=1), attrCatRecord);
+        /* if attribute catalog insert fails:
+             delete the relation by calling deleteRel(targetrel) of schema layer
+             return E_DISKFULL
+             // (this is necessary because we had already created the
+             //  relation catalog entry which needs to be removed)
+        */
+    }
+
+    // return SUCCESS
+}
