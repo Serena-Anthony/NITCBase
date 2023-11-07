@@ -135,7 +135,7 @@ int Algebra::select(char srcRel[ATTR_SIZE], char targetRel[ATTR_SIZE], char attr
 int Algebra::insert(char relName[ATTR_SIZE], int nAttrs, char record[][ATTR_SIZE]){
     // if relName is equal to "RELATIONCAT" or "ATTRIBUTECAT"
     // return E_NOTPERMITTED;
-    if(strcmp(relName, "RELATIONCAT")==0 && strcmp(relName,"ATTRIBUTECAT")==0)
+    if(strcmp(relName, "RELATIONCAT")==0 || strcmp(relName,"ATTRIBUTECAT")==0)
     {
       return E_NOTPERMITTED;
     }
@@ -160,7 +160,7 @@ int Algebra::insert(char relName[ATTR_SIZE], int nAttrs, char record[][ATTR_SIZE
        }
  
     // let recordValues[numberOfAttributes] be an array of type union Attribute
-    union Attribute recordValues[nAttrs];
+    Attribute recordValues[nAttrs];
     /*
         Converting 2D char array of record values to Attribute array recordValues
      */
@@ -172,12 +172,12 @@ int Algebra::insert(char relName[ATTR_SIZE], int nAttrs, char record[][ATTR_SIZE
         // (use AttrCacheTable::getAttrCatEntry())
       
         AttrCatEntry attrCatEntry;
-        int check = AttrCacheTable::getAttrCatEntry(relId,i,&attrCatEntry);
+        AttrCacheTable::getAttrCatEntry(relId,i,&attrCatEntry);
        
-        if(check ==E_ATTRNOTEXIST)
-        {
-          return E_ATTRNOTEXIST;
-        }
+        // if(check ==E_ATTRNOTEXIST)
+        // {
+        //   return E_ATTRNOTEXIST;
+        // }
 
         int type = attrCatEntry.attrType;
 
@@ -187,6 +187,7 @@ int Algebra::insert(char relName[ATTR_SIZE], int nAttrs, char record[][ATTR_SIZE
             // (check this using isNumber() function)
             if (isNumber(record[i])) {       // the isNumber() function is implemented below
             recordValues[i].nVal = atof(record[i]);
+            //convert char array to numeral and store it at recordValues[i]
           }
             else
             {

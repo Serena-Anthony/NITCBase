@@ -449,7 +449,7 @@ int RecBuffer::setSlotMap(unsigned char *slotMap) {
     // update dirty bit using StaticBuffer::setDirtyBit
     // if setDirtyBit failed, return the value returned by the call
        int done = StaticBuffer::setDirtyBit(this->blockNum);
-        return done;    
+        // return done;    
     
     return SUCCESS;
 }

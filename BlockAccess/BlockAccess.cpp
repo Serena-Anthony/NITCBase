@@ -431,15 +431,15 @@ int BlockAccess::insert(int relId, Attribute *record) {
         if(prevBlockNum!=-1)
         {
             // create a RecBuffer object for prevBlockNum
-            RecBuffer prevblock;
+            RecBuffer prevbuffer(prevBlockNum);
             // get the header of the block prevBlockNum and
             // update the rblock field of the header to the new block
             // number i.e. rec_id.block
             // (use BlockBuffer::setHeader() function)
             HeadInfo header;
-            prevblock.getHeader(&header);
+            prevbuffer.getHeader(&header);
             header.rblock = rec_id.block;
-            prevblock.setHeader(&header);
+            prevbuffer.setHeader(&header);
         }
         else
         {
@@ -450,7 +450,7 @@ int BlockAccess::insert(int relId, Attribute *record) {
         }
 
          relCatbuf.lastBlk = rec_id.block;
-            RelCacheTable::setRelCatEntry(relId, &relCatbuf); 
+         RelCacheTable::setRelCatEntry(relId, &relCatbuf); 
         // update last block field in the relation catalog entry to the
         // new block (using RelCacheTable::setRelCatEntry() function)
     }
@@ -463,7 +463,7 @@ int BlockAccess::insert(int relId, Attribute *record) {
     if(ret != SUCCESS)
     {
         cout << "record not saved\n";
-
+        exit(1);
     }
     /* update the slot map of the block by marking entry of the slot to
        which record was inserted as occupied) */
@@ -476,7 +476,7 @@ int BlockAccess::insert(int relId, Attribute *record) {
     // (use RecBuffer::getSlotMap() and RecBuffer::setSlotMap() functions)
         HeadInfo header;
         blockbuf.getHeader(&header);
-        header.numEntries += 1;
+        header.numEntries = header.numEntries+ 1;
         blockbuf.setHeader(&header);
     // increment the numEntries field in the header of the block to
     // which record was inserted
