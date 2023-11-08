@@ -154,9 +154,9 @@ int BlockAccess::renameRelation(char oldName[ATTR_SIZE], char newName[ATTR_SIZE]
     Attribute newRelationName;    // set newRelationName with newName
    strcpy(newRelationName.sVal, newName);
     // search the relation catalog for an entry with "RelName" = newRelationName
-   char * relname2 = RELCAT_ATTR_RELNAME;
+   
    RecId relcatRecId = BlockAccess::linearSearch(
-      RELCAT_RELID, relname2, newRelationName, EQ);
+      RELCAT_RELID, (char *)RELCAT_ATTR_RELNAME, newRelationName, EQ);
     // If relation with name newName already exists (result of linearSearch
     //                                               is not {-1, -1})
     //    return E_RELEXIST;
@@ -172,8 +172,8 @@ int BlockAccess::renameRelation(char oldName[ATTR_SIZE], char newName[ATTR_SIZE]
     Attribute oldRelationName;    // set oldRelationName with oldName
     strcpy(oldRelationName.sVal, oldName);
     // search the relation catalog for an entry with "RelName" = oldRelationName
-   char * relname22 = RELCAT_ATTR_RELNAME;
-   relcatRecId = BlockAccess::linearSearch(RELCAT_RELID,relname22 , oldRelationName,EQ);
+  
+   relcatRecId = BlockAccess::linearSearch(RELCAT_RELID,(char * )RELCAT_ATTR_RELNAME , oldRelationName,EQ);
    if(relcatRecId.block == -1 && relcatRecId.slot == -1)
    {
       return E_RELNOTEXIST;
@@ -211,8 +211,7 @@ int BlockAccess::renameRelation(char oldName[ATTR_SIZE], char newName[ATTR_SIZE]
     //    set back the record using RecBuffer.setRecord
     for(int i =0; i< Record[RELCAT_NO_ATTRIBUTES_INDEX].nVal; i++)
     {
-      char * attrrelname =ATTRCAT_ATTR_RELNAME;
-        relcatRecId= BlockAccess::linearSearch(ATTRCAT_RELID, attrrelname,oldRelationName, EQ);
+        relcatRecId= BlockAccess::linearSearch(ATTRCAT_RELID, (char *)ATTRCAT_ATTR_RELNAME,oldRelationName, EQ);
         RecBuffer attrcatblock(relcatRecId.block);
         Attribute attrcatrecord[ATTRCAT_NO_ATTRS];
         attrcatblock.getRecord(attrcatrecord, relcatRecId.slot);
@@ -231,8 +230,8 @@ int BlockAccess::renameAttribute(char relName[ATTR_SIZE], char oldName[ATTR_SIZE
     Attribute relNameAttr;    // set relNameAttr to relName
       strcpy(relNameAttr.sVal, relName);
     // Search for the relation with name relName in relation catalog using linearSearch()
-    char * attrrelname =RELCAT_ATTR_RELNAME;
-      RecId relcatrecid = BlockAccess::linearSearch(RELCAT_RELID,attrrelname, relNameAttr, EQ);
+    (char * )RELCAT_ATTR_RELNAME;
+      RecId relcatrecid = BlockAccess::linearSearch(RELCAT_RELID,(char *)RELCAT_ATTR_RELNAME, relNameAttr, EQ);
 
     // If relation with name relName does not exist (search returns {-1,-1})
     //    return E_RELNOTEXIST;
@@ -252,8 +251,8 @@ RelCacheTable::resetSearchIndex(ATTRCAT_RELID);
        relation to find the required attribute */
     while (true) {
         // linear search on the attribute catalog for RelName = relNameAttr
-         char * attrattrname =ATTRCAT_ATTR_RELNAME;
-        RecId searchindex= BlockAccess::linearSearch(ATTRCAT_RELID,attrattrname,relNameAttr, EQ );
+
+        RecId searchindex= BlockAccess::linearSearch(ATTRCAT_RELID, (char *)ATTRCAT_ATTR_RELNAME,relNameAttr, EQ );
         // if there are no more attributes left to check (linearSearch returned {-1,-1})
         //     break;
          if(searchindex.block==-1 && searchindex.slot==-1)
@@ -499,18 +498,30 @@ NOTE: This function will copy the result of the search to the `record` argument.
 int BlockAccess::search(int relId, Attribute *record, char attrName[ATTR_SIZE], Attribute attrVal, int op) {
     // Declare a variable called recid to store the searched record
     RecId recId;
-
+    
     /* search for the record id (recid) corresponding to the attribute with
     attribute name attrName, with value attrval and satisfying the condition op
     using linearSearch() */
+    BlockAccess::linearSearch(relId, attrName, attrVal, op);
 
     // if there's no record satisfying the given condition (recId = {-1, -1})
     //    return E_NOTFOUND;
+    if(recId.block == -1 && recId.slot==-1)
+    {
+        return E_NOTFOUND;
+    }
 
     /* Copy the record with record id (recId) to the record buffer (record)
        For this Instantiate a RecBuffer class object using recId and
        call the appropriate method to fetch the record
     */
+
+   RecBuffer recbuffer(recId.block);
+   int ret = recbuffer.getRecord(record, recId.slot);
+   if(ret!=SUCCESS)
+   {
+    return ret;
+   }
 
     return SUCCESS;
 }
