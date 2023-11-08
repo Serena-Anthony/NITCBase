@@ -134,5 +134,4 @@ void RelCacheTable :: relCatEntryToRecord(RelCatEntry *ptr, union Attribute reco
   record[RELCAT_FIRST_BLOCK_INDEX].nVal= ptr->firstBlk;
   record[RELCAT_LAST_BLOCK_INDEX].nVal=ptr->lastBlk;
   record[RELCAT_NO_SLOTS_PER_BLOCK_INDEX].nVal = ptr->numSlotsPerBlk;
-
 }
