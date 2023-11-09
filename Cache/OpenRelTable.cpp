@@ -523,13 +523,14 @@ OpenRelTable::~OpenRelTable() {
 
     //releasing the relation cache entry of the attribute catalog
 
-    if (RelCacheTable::relCache[ATTRCAT_RELID]->dirty) /* RelCatEntry of the ATTRCAT_RELID-th RelCacheEntry has been modified */
+    if (RelCacheTable::relCache[ATTRCAT_RELID]->dirty==true) /* RelCatEntry of the ATTRCAT_RELID-th RelCacheEntry has been modified */
     {
 
         /* Get the Relation Catalog entry from RelCacheTable::relCache
         Then convert it to a record using RelCacheTable::relCatEntryToRecord(). */
         RelCatEntry recbuffer;
-         RelCacheTable::getRelCatEntry(ATTRCAT_RELID, &recbuffer);
+        RelCacheTable::getRelCatEntry(ATTRCAT_RELID, &recbuffer);
+        
         Attribute record[RELCAT_NO_ATTRS];
 
         RelCacheTable::relCatEntryToRecord(&recbuffer, record);
@@ -546,14 +547,14 @@ OpenRelTable::~OpenRelTable() {
 
     //releasing the relation cache entry of the relation catalog
 
-    if(RelCacheTable::relCache[RELCAT_RELID]->dirty)/* RelCatEntry of the RELCAT_RELID-th RelCacheEntry has been modified */
+    if(RelCacheTable::relCache[RELCAT_RELID]->dirty==true)/* RelCatEntry of the RELCAT_RELID-th RelCacheEntry has been modified */
    {
 
         /* Get the Relation Catalog entry from RelCacheTable::relCache
         Then convert it to a record using RelCacheTable::relCatEntryToRecord(). */
         RelCatEntry recbuffer;
-         RelCacheTable::getRelCatEntry(RELCAT_RELID, &recbuffer);
-        Attribute record[RELCAT_NO_ATTRS];
+        RelCacheTable::getRelCatEntry(RELCAT_RELID, &recbuffer);
+        Attribute record[ATTRCAT_NO_ATTRS];
 
         RelCacheTable::relCatEntryToRecord(&recbuffer, record);
         RecId recid = RelCacheTable::relCache[RELCAT_RELID]->recId;

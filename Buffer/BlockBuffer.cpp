@@ -478,9 +478,9 @@ void BlockBuffer::releaseBlock(){
       }
 
       StaticBuffer::blockAllocMap[blockNum]==UNUSED_BLK;
-      blockNum = -1;  
+      this->blockNum = INVALID_BLOCKNUM;  
 
-  
+  return;
     // else
         /* get the buffer number of the buffer assigned to the block
            using StaticBuffer::getBufferNum().
